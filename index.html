@@ -61,6 +61,8 @@
 
 	<!-- Modernizr JS -->
 	<script src="js/modernizr-2.6.2.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"
+		integrity="sha256-chlNFSVx3TdcQ2Xlw7SvnbLAavAQLO0Y/LBiWX04viY=" crossorigin="anonymous"></script>
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
@@ -95,7 +97,7 @@
 	  </div>
 	</header>
 	
-	<div class="qbootstrap-hero" data-section="home">
+	<div id="appHome" class="qbootstrap-hero" data-section="home">
 		<div class="qbootstrap-overlay"></div>
 		<div class="qbootstrap-cover text-center" data-stellar-background-ratio="0.5" style="background-image: url(images/cover_bg_3.jpg);">
 			<div class="display-t">
@@ -106,7 +108,16 @@
 								<img src="images/flaticon/svg/004-nature.svg" class="svg" alt="Free HTML5 Bootstrap Template by QBootstrap.com">
 								<h1 class="holder"><span>The Wedding of</span></h1>
 								<h2>Kumi &amp; Johnny</h2>
-								<p>02.12.2017</p>
+								<h2 style="font-size: 50px;">2019/11/01-PM6:30</h2>
+								<h2 style="font-size: 30px;" class="countdown">
+									<span >{{days}} <small style="color: white;">days</small> </span>
+									<span >{{hours}} <small style="color: white;">hours</small> </span>
+									<span >{{minutes}} <small style="color: white;">minutes</small> </span>
+									<span >{{seconds}} <small style="color: white;">seconds</small> </span>
+								</h2>
+								<button @click="joinClick" class="btn btn-primary btn-lg">
+									我要參加
+								</button>
 							</div>
 						</div>
 					</div>
@@ -114,6 +125,45 @@
 			</div>
 		</div>
 	</div>
+	<script>
+		new Vue({
+				el: '#appHome',
+				mounted: function () {
+					var self = this;
+					this.intervalUpdate = setInterval(function () {
+						var now = new Date().getTime();
+						var distance = self.countDownDate - now;
+						if (distance < 0) {
+							clearInterval(self.intervalUpdate);
+							// document.getElementById("demo").innerHTML = "The Wedding Ceremony is Over";
+							return;
+						}
+
+						self.days = Math.floor(distance / (1000 * 60 * 60 * 24));
+						self.hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+						self.minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+						self.seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+						
+					}, 1000);
+				},
+				data: function () {
+					return {
+						intervalUpdate: null,
+						countDownDate: new Date("2019-11-01T18:30:00").getTime(),
+						days: 0,
+						hours: 0,
+						minutes: 0,
+						seconds: 0,
+					}
+				},
+				methods: {
+					joinClick: function () {
+						location.href = 'https://www.google.com.tw/'
+					}
+				}
+			});
+	</script>
 
 	<div id="qbootstrap-couple" class="qbootstrap-section-gray">
 		<div class="container">
